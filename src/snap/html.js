@@ -3,19 +3,19 @@ import { Logger } from './utils/console';
 const render = (html, styles, helmet) => {
   return `
   <!DOCTYPE html>
-  <html ${helmet.htmlAttributes}>
+  <html ${helmet.htmlAttributes || ''}>
     <head>
-      ${helmet.title}
-      ${helmet.meta}
-      ${helmet.link}
-      ${helmet.script}
-      ${helmet.noscript}
-      ${helmet.style}
+      ${helmet.title || ''}
+      ${helmet.meta || ''}
+      ${helmet.link || ''}
+      ${helmet.script || ''}
+      ${helmet.noscript || ''}
+      ${helmet.style || ''}
       <style>html,body{margin: 0; width: 100%; height: 100%;}</style>
-      <style>${styles}</style>
+      <style>${styles || ''}</style>
     </head>
-    <body ${helmet.bodyAttributes}>
-      ${html}
+    <body ${helmet.bodyAttributes || ''}>
+      ${html || ''}
     </body>
   </html>
   `;

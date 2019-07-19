@@ -1,6 +1,6 @@
 import path from 'path';
 
-export default fp => {
+export default async fp => {
   let data;
   try {
     data = require(path.join(process.cwd(), fp));

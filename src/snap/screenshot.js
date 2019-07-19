@@ -10,17 +10,24 @@ import parseSize from './utils/parseSize';
 
 import { TMP } from './constants';
 
-const takeScreenshot = async function(page, html, output, name) {
+const takeScreenshot = async function(page, html, destination, name, quality) {
   await fs.outputFile(path.join(TMP, 'index.html'), html);
   await page.reload();
-  await fs.ensureDir(output);
-  await page.screenshot({ path: path.join(output, name) });
+  await fs.ensureDir(destination);
+
+  await page.screenshot({
+    type: 'jpeg',
+    quality: quality,
+    path: path.join(destination, name),
+  });
 };
 
-export default async function(html, context, { resolution, output, size, fileAccessor, filename, verbose }) {
+export default async function(html, context, { quality: qualityStr, destination, size, fileAccessor, filename, verbose, resolution }) {
   const logger = new Logger({ verbose });
 
   const { width, height } = parseSize(size);
+  const qualityInt = parseInt(qualityStr);
+  const quality = qualityInt > 100 ? 100 : qualityInt < 0 ? 0 : qualityInt;
 
   portfinder.basePort = 3456;
   const port = await portfinder.getPortPromise();
@@ -44,11 +51,11 @@ export default async function(html, context, { resolution, output, size, fileAcc
     logger.progress.start(html.length, 0);
     for (let [idx, file] of html.entries()) {
       logger.progress.increment(1);
-      await takeScreenshot(page, file, output, get(context[idx], fileAccessor, filename));
+      await takeScreenshot(page, file, destination, get(context[idx], fileAccessor, filename));
     }
     logger.progress.stop();
   } else {
-    await takeScreenshot(page, html, output, filename);
+    await takeScreenshot(page, html, destination, filename, quality);
   }
 
   await server.close();

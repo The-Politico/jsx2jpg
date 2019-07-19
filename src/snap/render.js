@@ -10,7 +10,7 @@ const render = (source, Helmet, data) => {
   );
 
   const html = ReactDOMServer.renderToStaticMarkup(app);
-  const helmet = Helmet.renderStatic();
+  const helmet = Helmet ? Helmet.renderStatic() : {};
 
   return {
     html,

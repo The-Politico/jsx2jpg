@@ -21,15 +21,21 @@ yargs // eslint-disable-line
         default: SNAP_DEFAULTS.SIZE,
         type: 'string',
       })
-      .option('output', {
+      .option('destination', {
         alias: 'o',
-        describe: 'Accessor for Google display name',
-        default: SNAP_DEFAULTS.OUTPUT,
+        describe: 'The destination directory ',
+        default: SNAP_DEFAULTS.DESTINATION,
         type: 'string',
+      })
+      .option('quality', {
+        alias: 'q',
+        describe: 'The quality (from 0 to 100)',
+        default: SNAP_DEFAULTS.QUALITY,
+        type: 'number',
       })
       .option('resolution', {
         alias: 'r',
-        describe: 'The resolution factor (higher = better quality)',
+        describe: 'A resolution multiplier',
         default: SNAP_DEFAULTS.RESOLUTION,
         type: 'number',
       })

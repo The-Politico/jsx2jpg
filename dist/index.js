@@ -43,6 +43,27 @@ var Logger = function Logger() {
 
   _classCallCheck(this, Logger);
 
+  _defineProperty(this, "stepper", {
+    totalValue: 0,
+    startValue: 0,
+    currentValue: 0,
+    init: function (totalValue) {
+      var startValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      this.stepper.totalValue = totalValue;
+      this.stepper.startValue = startValue;
+      this.stepper.currentValue = 0;
+    }.bind(this),
+    step: function (message, type) {
+      var prefix = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+      this.stepper.currentValue = Math.floor(this.stepper.currentValue + 1);
+      this.stepper.tabLevel = 0;
+      this.log("[".concat(this.stepper.currentValue, "/").concat(this.stepper.totalValue, "] ").concat(message), type, prefix);
+    }.bind(this),
+    log: function (message, type) {
+      this.log("".concat(message), type);
+    }.bind(this)
+  });
+
   _defineProperty(this, "progress", {
     start: function (totalValue, startValue) {
       if (this.verbose === false) {
@@ -75,6 +96,8 @@ var Logger = function Logger() {
   });
 
   _defineProperty(this, "log", function (message, type) {
+    var prefix = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+
     if (_this.verbose === false) {
       return;
     }
@@ -83,9 +106,9 @@ var Logger = function Logger() {
     var logFunc = type === 'error' ? console.error : type === 'warning' ? console.warn : console.log;
 
     if (type) {
-      logFunc(chalk[color](type), message);
+      logFunc("".concat(prefix).concat(chalk[color](type)), message);
     } else {
-      logFunc(message);
+      logFunc("".concat(prefix).concat(message));
     }
   });
 
@@ -127,12 +150,13 @@ function _ref() {
 
           case 6:
             if (!(typeof componentOrPath === 'string')) {
-              _context.next = 18;
+              _context.next = 25;
               break;
             }
 
             absComponentPath = path.join(cwd, componentOrPath);
-            _context.next = 10;
+            _context.prev = 8;
+            _context.next = 11;
             return compile(absComponentPath, 'component', webpackConfig(), {
               mode: 'replace',
               module: 'replace',
@@ -141,22 +165,34 @@ function _ref() {
               plugins: 'replace'
             });
 
-          case 10:
+          case 11:
             bundle = _context.sent;
             eval(bundle.result.substring(4)); // eslint-disable-line no-eval
 
-            helmet = component.Helmet;
-            component = component["default"];
-            styles = bundle.output.data['main.css'].toString();
+            _context.next = 19;
+            break;
+
+          case 15:
+            _context.prev = 15;
+            _context.t0 = _context["catch"](8);
+            console.error(chalk.red('error'), 'There was a problem compiling your JSX file:', componentOrPath);
+            throw _context.t0;
+
+          case 19:
+            helmet = component && component.Helmt ? component.Helmet : null;
+            component = component && component["default"] ? component["default"] : function () {
+              return null;
+            };
+            styles = bundle && bundle.output.data['main.css'] ? bundle.output.data['main.css'].toString() : '';
             return _context.abrupt("return", {
               component: component,
               helmet: helmet,
               styles: styles
             });
 
-          case 18:
+          case 25:
             if (!(typeof componentOrPath === 'function')) {
-              _context.next = 23;
+              _context.next = 30;
               break;
             }
 
@@ -167,7 +203,7 @@ function _ref() {
               styles: ''
             });
 
-          case 23:
+          case 30:
             log('Invalid component provided.', 'error');
             process.exitCode = 1;
             return _context.abrupt("return", {
@@ -176,31 +212,59 @@ function _ref() {
               styles: null
             });
 
-          case 26:
+          case 33:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee);
+    }, _callee, null, [[8, 15]]);
   }));
   return _ref.apply(this, arguments);
 }
 
-var loadData = (function (fp) {
-  var data;
+var loadData = /*#__PURE__*/
+(function () {
+  var _ref = _asyncToGenerator(
+  /*#__PURE__*/
+  _regeneratorRuntime.mark(function _callee(fp) {
+    var data;
+    return _regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.prev = 0;
+            data = require(path.join(process.cwd(), fp));
+            _context.next = 7;
+            break;
 
-  try {
-    data = require(path.join(process.cwd(), fp));
-  } catch (e) {
-    return null;
-  }
+          case 4:
+            _context.prev = 4;
+            _context.t0 = _context["catch"](0);
+            return _context.abrupt("return", null);
 
-  if (typeof data === 'function') {
-    return Promise.resolve(data());
-  } else {
-    return data;
-  }
-});
+          case 7:
+            if (!(typeof data === 'function')) {
+              _context.next = 11;
+              break;
+            }
+
+            return _context.abrupt("return", Promise.resolve(data()));
+
+          case 11:
+            return _context.abrupt("return", data);
+
+          case 12:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[0, 4]]);
+  }));
+
+  return function (_x) {
+    return _ref.apply(this, arguments);
+  };
+})();
 
 function parseContext (_x) {
   return _ref$1.apply(this, arguments);
@@ -218,14 +282,18 @@ function _ref$1() {
             context = contextOrPath;
 
             if (!(typeof contextOrPath === 'string')) {
-              _context.next = 7;
+              _context.next = 9;
               break;
             }
 
-            context = loadData(contextOrPath);
+            _context.next = 4;
+            return loadData(contextOrPath);
+
+          case 4:
+            context = _context.sent;
 
             if (context) {
-              _context.next = 7;
+              _context.next = 9;
               break;
             }
 
@@ -233,10 +301,10 @@ function _ref$1() {
             process.exitCode = 1;
             return _context.abrupt("return", new Error());
 
-          case 7:
+          case 9:
             return _context.abrupt("return", context);
 
-          case 8:
+          case 10:
           case "end":
             return _context.stop();
         }
@@ -247,7 +315,7 @@ function _ref$1() {
 }
 
 var render = function render(html, styles, helmet) {
-  return "\n  <!DOCTYPE html>\n  <html ".concat(helmet.htmlAttributes, ">\n    <head>\n      ").concat(helmet.title, "\n      ").concat(helmet.meta, "\n      ").concat(helmet.link, "\n      ").concat(helmet.script, "\n      ").concat(helmet.noscript, "\n      ").concat(helmet.style, "\n      <style>html,body{margin: 0; width: 100%; height: 100%;}</style>\n      <style>").concat(styles, "</style>\n    </head>\n    <body ").concat(helmet.bodyAttributes, ">\n      ").concat(html, "\n    </body>\n  </html>\n  ");
+  return "\n  <!DOCTYPE html>\n  <html ".concat(helmet.htmlAttributes || '', ">\n    <head>\n      ").concat(helmet.title || '', "\n      ").concat(helmet.meta || '', "\n      ").concat(helmet.link || '', "\n      ").concat(helmet.script || '', "\n      ").concat(helmet.noscript || '', "\n      ").concat(helmet.style || '', "\n      <style>html,body{margin: 0; width: 100%; height: 100%;}</style>\n      <style>").concat(styles || '', "</style>\n    </head>\n    <body ").concat(helmet.bodyAttributes || '', ">\n      ").concat(html || '', "\n    </body>\n  </html>\n  ");
 };
 
 var htmlFunc = (function (_ref) {
@@ -276,7 +344,7 @@ var render$1 = function render(source, Helmet, data) {
   var App = source;
   var app = React.createElement(App, data);
   var html = ReactDOMServer.renderToStaticMarkup(app);
-  var helmet = Helmet.renderStatic();
+  var helmet = Helmet ? Helmet.renderStatic() : {};
   return {
     html: html,
     helmet: helmet
@@ -327,7 +395,7 @@ var takeScreenshot =
 function () {
   var _ref = _asyncToGenerator(
   /*#__PURE__*/
-  _regeneratorRuntime.mark(function _callee(page, html, output, name) {
+  _regeneratorRuntime.mark(function _callee(page, html, destination, name, quality) {
     return _regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -341,12 +409,14 @@ function () {
 
           case 4:
             _context.next = 6;
-            return fs__default.ensureDir(output);
+            return fs__default.ensureDir(destination);
 
           case 6:
             _context.next = 8;
             return page.screenshot({
-              path: path.join(output, name)
+              type: 'jpeg',
+              quality: quality,
+              path: path.join(destination, name)
             });
 
           case 8:
@@ -357,12 +427,12 @@ function () {
     }, _callee);
   }));
 
-  return function takeScreenshot(_x, _x2, _x3, _x4) {
+  return function takeScreenshot(_x, _x2, _x3, _x4, _x5) {
     return _ref.apply(this, arguments);
   };
 }();
 
-function screenshot (_x5, _x6, _x7) {
+function screenshot (_x6, _x7, _x8) {
   return _ref3.apply(this, arguments);
 }
 
@@ -370,24 +440,26 @@ function _ref3() {
   _ref3 = _asyncToGenerator(
   /*#__PURE__*/
   _regeneratorRuntime.mark(function _callee2(html, context, _ref2) {
-    var resolution, output, size, fileAccessor, filename, verbose, logger, _parseSize, width, height, port, server, browser, page, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, _step$value, idx, file;
+    var qualityStr, destination, size, fileAccessor, filename, verbose, resolution, logger, _parseSize, width, height, qualityInt, quality, port, server, browser, page, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, _step$value, idx, file;
 
     return _regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            resolution = _ref2.resolution, output = _ref2.output, size = _ref2.size, fileAccessor = _ref2.fileAccessor, filename = _ref2.filename, verbose = _ref2.verbose;
+            qualityStr = _ref2.quality, destination = _ref2.destination, size = _ref2.size, fileAccessor = _ref2.fileAccessor, filename = _ref2.filename, verbose = _ref2.verbose, resolution = _ref2.resolution;
             logger = new Logger({
               verbose: verbose
             });
             _parseSize = parseSize(size), width = _parseSize.width, height = _parseSize.height;
+            qualityInt = parseInt(qualityStr);
+            quality = qualityInt > 100 ? 100 : qualityInt < 0 ? 0 : qualityInt;
             portfinder.basePort = 3456;
-            _context2.next = 6;
+            _context2.next = 8;
             return portfinder.getPortPromise();
 
-          case 6:
+          case 8:
             port = _context2.sent;
-            _context2.next = 9;
+            _context2.next = 11;
             return preview({
               directory: TMP,
               port: port,
@@ -395,34 +467,34 @@ function _ref3() {
               verbose: false
             });
 
-          case 9:
+          case 11:
             server = _context2.sent;
-            _context2.next = 12;
+            _context2.next = 14;
             return puppeteer.launch({
               headless: true
             });
 
-          case 12:
+          case 14:
             browser = _context2.sent;
-            _context2.next = 15;
+            _context2.next = 17;
             return browser.newPage();
 
-          case 15:
+          case 17:
             page = _context2.sent;
-            _context2.next = 18;
+            _context2.next = 20;
             return page.setViewport({
               width: width,
               height: height,
               deviceScaleFactor: parseInt(resolution)
             });
 
-          case 18:
-            _context2.next = 20;
+          case 20:
+            _context2.next = 22;
             return page["goto"]("http://localhost:".concat(port, "/"));
 
-          case 20:
+          case 22:
             if (!Array.isArray(html)) {
-              _context2.next = 52;
+              _context2.next = 54;
               break;
             }
 
@@ -430,86 +502,86 @@ function _ref3() {
             _iteratorNormalCompletion = true;
             _didIteratorError = false;
             _iteratorError = undefined;
-            _context2.prev = 25;
+            _context2.prev = 27;
             _iterator = html.entries()[Symbol.iterator]();
 
-          case 27:
+          case 29:
             if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-              _context2.next = 35;
+              _context2.next = 37;
               break;
             }
 
             _step$value = _slicedToArray(_step.value, 2), idx = _step$value[0], file = _step$value[1];
             logger.progress.increment(1);
-            _context2.next = 32;
-            return takeScreenshot(page, file, output, get(context[idx], fileAccessor, filename));
+            _context2.next = 34;
+            return takeScreenshot(page, file, destination, get(context[idx], fileAccessor, filename));
 
-          case 32:
+          case 34:
             _iteratorNormalCompletion = true;
-            _context2.next = 27;
-            break;
-
-          case 35:
-            _context2.next = 41;
+            _context2.next = 29;
             break;
 
           case 37:
-            _context2.prev = 37;
-            _context2.t0 = _context2["catch"](25);
+            _context2.next = 43;
+            break;
+
+          case 39:
+            _context2.prev = 39;
+            _context2.t0 = _context2["catch"](27);
             _didIteratorError = true;
             _iteratorError = _context2.t0;
 
-          case 41:
-            _context2.prev = 41;
-            _context2.prev = 42;
+          case 43:
+            _context2.prev = 43;
+            _context2.prev = 44;
 
             if (!_iteratorNormalCompletion && _iterator["return"] != null) {
               _iterator["return"]();
             }
 
-          case 44:
-            _context2.prev = 44;
+          case 46:
+            _context2.prev = 46;
 
             if (!_didIteratorError) {
-              _context2.next = 47;
+              _context2.next = 49;
               break;
             }
 
             throw _iteratorError;
 
-          case 47:
-            return _context2.finish(44);
-
-          case 48:
-            return _context2.finish(41);
-
           case 49:
-            logger.progress.stop();
-            _context2.next = 54;
-            break;
+            return _context2.finish(46);
 
-          case 52:
-            _context2.next = 54;
-            return takeScreenshot(page, html, output, filename);
+          case 50:
+            return _context2.finish(43);
+
+          case 51:
+            logger.progress.stop();
+            _context2.next = 56;
+            break;
 
           case 54:
             _context2.next = 56;
-            return server.close();
+            return takeScreenshot(page, html, destination, filename, quality);
 
           case 56:
             _context2.next = 58;
-            return page.close();
+            return server.close();
 
           case 58:
             _context2.next = 60;
-            return browser.close();
+            return page.close();
 
           case 60:
+            _context2.next = 62;
+            return browser.close();
+
+          case 62:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[25, 37, 41, 49], [42,, 44, 48]]);
+    }, _callee2, null, [[27, 39, 43, 51], [44,, 46, 50]]);
   }));
   return _ref3.apply(this, arguments);
 }
@@ -519,8 +591,8 @@ var sweepTmp = (function () {
 });
 
 var SIZE = '600x325';
-var RESOLUTION = '10';
-var OUTPUT = "".concat(process.cwd());
+var QUALITY = 100;
+var DESTINATION = "".concat(process.cwd());
 var VERBOSE = true;
 var CLEANUP = true;
 var FILE_ACCESSOR = 'id';
@@ -537,7 +609,6 @@ function () {
         defaults,
         config,
         logger,
-        log,
         bundle,
         component,
         helmet,
@@ -554,8 +625,8 @@ function () {
             options = _args.length > 2 ? _args[2] : undefined;
             defaults = {
               size: SIZE,
-              output: OUTPUT,
-              resolution: RESOLUTION,
+              destination: DESTINATION,
+              quality: QUALITY,
               verbose: VERBOSE,
               cleanup: CLEANUP,
               filename: FILENAME,
@@ -566,9 +637,9 @@ function () {
             logger = new Logger({
               verbose: config.verbose
             });
-            log = logger.log;
-            log("\uD83D\uDDBC Converting ".concat(chalk.bold(path.basename("".concat(componentOrPath))), " into a JPG."));
-            log('[1/6] 📦 Compiling JSX bundle...');
+            logger.stepper.init(6);
+            logger.log("\uD83D\uDDBC Converting ".concat(chalk.bold(path.basename("".concat(componentOrPath))), " into a JPG."));
+            logger.stepper.step('📦 Compiling JSX bundle...');
             _context.next = 10;
             return parseBundle(componentOrPath);
 
@@ -584,7 +655,7 @@ function () {
 
           case 13:
             component = bundle.component, helmet = bundle.helmet, styles = bundle.styles;
-            log('[2/6] 📂 Loading context...');
+            logger.stepper.step('📂 Loading context...');
             _context.next = 17;
             return parseContext(contextOrPath);
 
@@ -599,21 +670,21 @@ function () {
             return _context.abrupt("return");
 
           case 20:
-            log('[3/6] 🛠 Rendering component from bundle + context...');
+            logger.stepper.step('🛠 Rendering component from bundle + context...');
             assets = renderFunc({
               component: component,
               helmet: helmet,
               data: context,
               verbose: config.verbose
             });
-            log('[4/6] 🖥 Rendering HTML from component...');
+            logger.stepper.step('🖥 Rendering HTML from component...');
             html = htmlFunc({
               styles: styles,
               assets: assets,
               verbose: config.verbose
             }); // Screenshot
 
-            log("[5/6] \uD83D\uDCF8 Taking screenshot at ".concat(chalk.bold(config.size), " with a display factor of ").concat(chalk.bold(config.resolution), "..."));
+            logger.stepper.step("\uD83D\uDCF8 Taking screenshot at ".concat(chalk.bold(config.size), " at ").concat(chalk.bold(config.quality + '%'), " quality with a scale factor of ").concat(chalk.bold(config.resolution + 'x'), "..."));
             _context.next = 27;
             return screenshot(html, context, config);
 
@@ -623,7 +694,7 @@ function () {
               break;
             }
 
-            log("[6/6] \uD83E\uDDF9 Cleaning up...");
+            logger.stepper.step("\uD83D\uDDD1\uFE0F Cleaning up...");
             _context.next = 31;
             return sweepTmp();
 
@@ -632,10 +703,10 @@ function () {
             break;
 
           case 33:
-            log("[6/6] \uD83E\uDDF9 Bypassing clean up step...");
+            logger.stepper.step("\uD83D\uDDD1\uFE0F Bypassing clean up step...");
 
           case 34:
-            log("Screenshot saved to ".concat(chalk.bold(config.output), "."), 'success');
+            logger.log("Screenshot saved to ".concat(chalk.bold(config.destination), "."), 'success');
 
           case 35:
           case "end":

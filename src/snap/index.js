@@ -15,8 +15,8 @@ import * as DEFAULTS from './defaults';
 const run = async function(componentOrPath, contextOrPath = {}, options) {
   const defaults = {
     size: DEFAULTS.SIZE,
-    output: DEFAULTS.OUTPUT,
-    resolution: DEFAULTS.RESOLUTION,
+    destination: DEFAULTS.DESTINATION,
+    quality: DEFAULTS.QUALITY,
     verbose: DEFAULTS.VERBOSE,
     cleanup: DEFAULTS.CLEANUP,
     filename: DEFAULTS.FILENAME,
@@ -26,19 +26,19 @@ const run = async function(componentOrPath, contextOrPath = {}, options) {
 
   // Set up logger
   const logger = new Logger({ verbose: config.verbose });
-  const log = logger.log;
-  log(`🖼 Converting ${chalk.bold(path.basename(`${componentOrPath}`))} into a JPG.`);
+  logger.stepper.init(6);
+  logger.log(`🖼 Converting ${chalk.bold(path.basename(`${componentOrPath}`))} into a JPG.`);
 
-  log('[1/6] 📦 Compiling JSX bundle...');
+  logger.stepper.step('📦 Compiling JSX bundle...');
   const bundle = await parseBundle(componentOrPath);
   if (!bundle.component) { return; }
   const { component, helmet, styles } = bundle;
 
-  log('[2/6] 📂 Loading context...');
+  logger.stepper.step('📂 Loading context...');
   const context = await parseContext(contextOrPath);
   if (context instanceof Error) { return; }
 
-  log('[3/6] 🛠 Rendering component from bundle + context...');
+  logger.stepper.step('🛠 Rendering component from bundle + context...');
   const assets = renderFunc({
     component,
     helmet,
@@ -46,22 +46,22 @@ const run = async function(componentOrPath, contextOrPath = {}, options) {
     verbose: config.verbose,
   });
 
-  log('[4/6] 🖥 Rendering HTML from component...');
+  logger.stepper.step('🖥 Rendering HTML from component...');
   const html = htmlFunc({ styles, assets, verbose: config.verbose });
 
   // Screenshot
-  log(`[5/6] 📸 Taking screenshot at ${chalk.bold(config.size)} with a display factor of ${chalk.bold(config.resolution)}...`);
+  logger.stepper.step(`📸 Taking screenshot at ${chalk.bold(config.size)} at ${chalk.bold(config.quality + '%')} quality with a scale factor of ${chalk.bold(config.resolution + 'x')}...`);
   await screenshot(html, context, config);
 
   // Cleanup
   if (config.cleanup) {
-    log(`[6/6] 🧹 Cleaning up...`);
+    logger.stepper.step(`🗑️ Cleaning up...`);
     await sweepTmp(config);
   } else {
-    log(`[6/6] 🧹 Bypassing clean up step...`);
+    logger.stepper.step(`🗑️ Bypassing clean up step...`);
   }
 
-  log(`Screenshot saved to ${chalk.bold(config.output)}.`, 'success');
+  logger.log(`Screenshot saved to ${chalk.bold(config.destination)}.`, 'success');
 };
 
 export default run;

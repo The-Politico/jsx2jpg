@@ -7,6 +7,28 @@ class Logger {
     this.bar = new cli.Bar({ clearOnComplete: true }, cli.Presets.shades_classic);
   }
 
+  stepper = {
+    totalValue: 0,
+    startValue: 0,
+    currentValue: 0,
+
+    init: function(totalValue, startValue = 0) {
+      this.stepper.totalValue = totalValue;
+      this.stepper.startValue = startValue;
+      this.stepper.currentValue = 0;
+    }.bind(this),
+
+    step: function(message, type, prefix = '') {
+      this.stepper.currentValue = Math.floor(this.stepper.currentValue + 1);
+      this.stepper.tabLevel = 0;
+      this.log(`[${this.stepper.currentValue}/${this.stepper.totalValue}] ${message}`, type, prefix);
+    }.bind(this),
+
+    log: function(message, type) {
+      this.log(`${message}`, type);
+    }.bind(this),
+  }
+
   progress = {
     start: function(totalValue, startValue) {
       if (this.verbose === false) {
@@ -37,7 +59,7 @@ class Logger {
     }.bind(this),
   }
 
-  log = (message, type) => {
+  log = (message, type, prefix = '') => {
     if (this.verbose === false) {
       return;
     }
@@ -50,9 +72,9 @@ class Logger {
       type === 'warning' ? console.warn : console.log;
 
     if (type) {
-      logFunc(chalk[color](type), message);
+      logFunc(`${prefix}${chalk[color](type)}`, message);
     } else {
-      logFunc(message);
+      logFunc(`${prefix}${message}`);
     }
   };
 }
@@ -62,5 +84,6 @@ const log = defaultLogger.log;
 
 export {
   Logger,
+  defaultLogger,
   log
 };

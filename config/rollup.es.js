@@ -12,17 +12,17 @@ export const babelOpts = {
   exclude: 'node_modules/**',
   runtimeHelpers: true,
   presets: [
-    [useLocal('@babel/preset-env'), { modules: false }],
-    useLocal('@babel/preset-react'),
+    ['@babel/preset-env', { modules: false }],
+    '@babel/preset-react',
   ],
   plugins: [
-    useLocal('@babel/plugin-proposal-class-properties'),
-    useLocal('@babel/plugin-transform-runtime'),
+    '@babel/plugin-proposal-class-properties',
+    '@babel/plugin-transform-runtime',
   ],
 };
 
 export const external = [
-  ...Object.keys(pkg.dependencies),
+  ...Object.keys(pkg.dependencies), 'path',
 ];
 
 export const plugins = [
