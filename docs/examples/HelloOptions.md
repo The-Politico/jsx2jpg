@@ -24,6 +24,8 @@ For example, imagine two components with a square set to `100px` in height and w
 ## Destination
 `destination` is the base directory in which all images are saved. This defaults to your current working directory. Use the `pwd` command in the terminal to know what that is.
 
+## Putting it all together
+
 Given the JSX file below and using all of these options together you can give the destination file a custom size, quality, and destination path.
 
 ```javascript
