@@ -23,9 +23,15 @@ See [Examples](#examples) below for more.
 
 ### Snap
 
+The `snap` command (currently the only command in this library takes a screenshot of a React component).
+
+#### Show help message:
+
 ```
 $ jsx2jpg snap --help
 ```
+
+#### Calling format and available options:
 
 ```
 jsx2jpg snap <component> [context]
