@@ -1,6 +1,6 @@
 # Hello World
 
-Export a JSX component as the default in a `.jsx` file:
+Create a JSX component, which is the default export in its `.jsx` file:
 
 ```javascript
 // App.jsx
@@ -13,11 +13,11 @@ const HelloWorld = () => (
 export default HelloWorld;
 ```
 
-And use the CLI on that file:
-```
+Then, use the CLI on that file:
+```sh
 $ jsx2jpg snap App.jsx
 ```
 
-Which produces this image:
+That command will produce the following image:
 
 <img align="left" src="../images/example-1.jpg">

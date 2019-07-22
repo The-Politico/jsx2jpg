@@ -3,6 +3,7 @@
 You'll likely need more than just markup on your page if you're going to be taking a screenshot. For that, you can use [CSS modules](https://css-tricks.com/css-modules-part-1-need/). There's a lot you can do with managing your styles this way, but this example is just going to keep it simple.
 
 Create a file called `styles.scss` in your root and fill it with this:
+
 ```scss
 .styles :global {
   // SCSS GOES HERE
@@ -19,7 +20,7 @@ Then fill that `.styles` rule with any CSS you want on the page. For this exampl
 }
 ```
 
-In your App.jsx, import the `.styles` rule from the `styles.scss` file, and apply it to a container `<div>`:
+In your App.jsx, import the `.styles` rule from the `styles.scss` file, and connect it to a container `<div>`:
 
 ```javascript
 // App.jsx
@@ -36,13 +37,13 @@ const HelloStyles = () => (
 export default HelloStyles;
 ```
 
-<em>Note: Importing styles this way creates a hash and saves it to the variable `styles`. It can then be passed to the `className` prop in your JSX like any other class.</em>
+_Note: Importing styles this way creates a hash and saves it to the variable `styles`. It can then be passed to the `className` prop in your JSX like any other class._
 
-And then use the CLI on that file:
-```
+You can then use the CLI on that file:
+```sh
 $ jsx2jpg snap App.jsx
 ```
 
-Which will produce this image:
+Which will produce the following image:
 
 ![](../images/example-8.jpg)
