@@ -6,12 +6,17 @@ A tool for taking screenshots of JSX component files.
 
 ## Quick Start
 
-Install the library
+Install the library:
 ```
 $ npm install -g jsx2jpg
 ```
 
-Use the library
+Install its peer dependencies:
+```
+$ npm install -g react react-dom react-helmet
+```
+
+Use the library:
 
 ```
 $ jsx2jpg snap App.jsx
