@@ -1,6 +1,17 @@
 # Hello Data
 
-Access the props of your React component:
+Context data is passed to your component's props. You can use them in your component like you would any other React props.
+
+For example, given this data file:
+
+```javascript
+// data.json
+{
+  "name": "Andrew"
+}
+```
+
+You can access the data in there through React's props:
 
 ```javascript
 // App.jsx
@@ -13,21 +24,14 @@ const HelloData = (props) => (
 export default HelloData;
 ```
 
-Create a data file:
-```javascript
-// data.json
-{
-  "name": "Andrew"
-}
-```
-
 And use the CLI on that file, passing the right context:
 ```
 $ jsx2jpg snap App.jsx data.json --size="300x75"
 ```
 
 Which produces this image as `share.jpg`:
-![](../images/example-2.jpg)
+
+<img align="left" src="../images/example-2.jpg">
 
 ## Creating Multiple Images
 
