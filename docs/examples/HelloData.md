@@ -90,7 +90,7 @@ Will generate these images:
 
 ## Generating Data Programmatically
 
-There may be cases where you want to generate the data asynchronously. You may want to process a local file or use today's date. In these cases, your can pass a JavaScript file as the context to your CLI. This JavaScript file should export an object or an array as the `module.exports`.
+There may be cases where you want to generate the data through JavaScript. You may want to process a local file or use today's date. In these cases, your can pass a JavaScript file as the context to your CLI. This JavaScript file should export an object or an array as the `module.exports`.
 
 <em>Note: Unlike the JSX code, this code will NOT be transpiled and must be written in a version compatible with your node interpreter.</em>
 
