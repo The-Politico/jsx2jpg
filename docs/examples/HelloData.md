@@ -80,11 +80,11 @@ Will generate these images:
 
 <img src="../images/example-3.jpg">
 
-`jon.jpg`:
+`beatrice.jpg`:
 
 <img src="../images/example-4.jpg">
 
-`beatrice.jpg`:
+`jon.jpg`:
 
 <img src="../images/example-5.jpg">
 
