@@ -31,8 +31,7 @@ $ jsx2jpg snap App.jsx data.json --size="300x75"
 
 Which produces this image as `share.jpg`:
 
-<img align="left" src="../images/example-2.jpg">
-<div style="clear:both;" />
+<img src="../images/example-2.jpg">
 
 ## Creating Multiple Images
 
