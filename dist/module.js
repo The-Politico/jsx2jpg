@@ -585,6 +585,7 @@ var sweepTmp = (function () {
 
 var SIZE = '600x325';
 var QUALITY = 100;
+var RESOLUTION = 1;
 var DESTINATION = "".concat(process.cwd());
 var VERBOSE = true;
 var CLEANUP = true;
@@ -620,6 +621,7 @@ function () {
               size: SIZE,
               destination: DESTINATION,
               quality: QUALITY,
+              resolution: RESOLUTION,
               verbose: VERBOSE,
               cleanup: CLEANUP,
               filename: FILENAME,

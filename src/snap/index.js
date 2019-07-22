@@ -17,6 +17,7 @@ const run = async function(componentOrPath, contextOrPath = {}, options) {
     size: DEFAULTS.SIZE,
     destination: DEFAULTS.DESTINATION,
     quality: DEFAULTS.QUALITY,
+    resolution: DEFAULTS.RESOLUTION,
     verbose: DEFAULTS.VERBOSE,
     cleanup: DEFAULTS.CLEANUP,
     filename: DEFAULTS.FILENAME,

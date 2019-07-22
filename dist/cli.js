@@ -628,6 +628,7 @@ function () {
               size: SIZE,
               destination: DESTINATION,
               quality: QUALITY,
+              resolution: RESOLUTION,
               verbose: VERBOSE,
               cleanup: CLEANUP,
               filename: FILENAME,
