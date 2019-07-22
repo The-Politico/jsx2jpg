@@ -19,4 +19,5 @@ $ jsx2jpg snap App.jsx
 ```
 
 Which produces this image:
+
 ![](../images/example-1.jpg)
