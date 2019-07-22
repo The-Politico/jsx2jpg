@@ -20,4 +20,4 @@ $ jsx2jpg snap App.jsx
 
 Which produces this image:
 
-![](../images/example-1.jpg)
+<img align="left" src="../images/example-1.jpg">
