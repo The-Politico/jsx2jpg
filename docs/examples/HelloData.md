@@ -35,7 +35,7 @@ Which produces this image as `share.jpg`:
 
 ## Creating Multiple Images
 
-Your data file can also return an array, and `jsx2jpg` will create a new image for each one. If you're doing this you'll need to make sure there's a key in your data objects that has the expected filename output. This key is `id` by default but you can customize it using the `--fileAccessor` prop in your CLI.
+Your data file can also be an array, and `jsx2jpg` will create a new image for each one. If you're doing this you'll need to make sure there's a key in your data objects that has the expected filename output. This key is `id` by default but you can customize it using the `--fileAccessor` prop in your CLI.
 
 These files:
 
@@ -77,13 +77,16 @@ $ jsx2jpg snap App.jsx data.json --size="300x75" --fileAccessor="output"
 Will generate these images:
 
 `allan.jpg`:
-![](../images/example-3.jpg)
+
+<img src="../images/example-3.jpg">
 
 `jon.jpg`:
-![](../images/example-4.jpg)
+
+<img src="../images/example-4.jpg">
 
 `beatrice.jpg`:
-![](../images/example-5.jpg)
+
+<img src="../images/example-5.jpg">
 
 ## Generating Data Programmatically
 
@@ -162,4 +165,5 @@ $ jsx2jpg snap App.jsx data.js --size="500x75" --fileAccessor="output"
 Which will produce 10 images using the dummy user data. One such example is (the dummy data has random usernames matched with real names):
 
 `Bret.jpg`:
-![](../images/example-6.jpg)
+
+<img src="../images/example-6.jpg">
