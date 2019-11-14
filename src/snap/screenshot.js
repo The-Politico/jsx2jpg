@@ -46,6 +46,7 @@ export default async function(html, context, { quality: qualityStr, destination,
     deviceScaleFactor: parseInt(resolution),
   });
   await page.goto(`http://localhost:${port}/`);
+  await page.waitFor(2000);
 
   if (Array.isArray(html)) {
     logger.progress.start(html.length, 0);

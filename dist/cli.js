@@ -493,8 +493,12 @@ function _ref3() {
             return page["goto"]("http://localhost:".concat(port, "/"));
 
           case 22:
+            _context2.next = 24;
+            return page.waitFor(2000);
+
+          case 24:
             if (!Array.isArray(html)) {
-              _context2.next = 54;
+              _context2.next = 56;
               break;
             }
 
@@ -502,86 +506,86 @@ function _ref3() {
             _iteratorNormalCompletion = true;
             _didIteratorError = false;
             _iteratorError = undefined;
-            _context2.prev = 27;
+            _context2.prev = 29;
             _iterator = html.entries()[Symbol.iterator]();
 
-          case 29:
+          case 31:
             if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-              _context2.next = 37;
+              _context2.next = 39;
               break;
             }
 
             _step$value = _slicedToArray(_step.value, 2), idx = _step$value[0], file = _step$value[1];
             logger.progress.increment(1);
-            _context2.next = 34;
+            _context2.next = 36;
             return takeScreenshot(page, file, destination, get(context[idx], fileAccessor, filename));
 
-          case 34:
+          case 36:
             _iteratorNormalCompletion = true;
-            _context2.next = 29;
-            break;
-
-          case 37:
-            _context2.next = 43;
+            _context2.next = 31;
             break;
 
           case 39:
-            _context2.prev = 39;
-            _context2.t0 = _context2["catch"](27);
+            _context2.next = 45;
+            break;
+
+          case 41:
+            _context2.prev = 41;
+            _context2.t0 = _context2["catch"](29);
             _didIteratorError = true;
             _iteratorError = _context2.t0;
 
-          case 43:
-            _context2.prev = 43;
-            _context2.prev = 44;
+          case 45:
+            _context2.prev = 45;
+            _context2.prev = 46;
 
             if (!_iteratorNormalCompletion && _iterator["return"] != null) {
               _iterator["return"]();
             }
 
-          case 46:
-            _context2.prev = 46;
+          case 48:
+            _context2.prev = 48;
 
             if (!_didIteratorError) {
-              _context2.next = 49;
+              _context2.next = 51;
               break;
             }
 
             throw _iteratorError;
 
-          case 49:
-            return _context2.finish(46);
-
-          case 50:
-            return _context2.finish(43);
-
           case 51:
-            logger.progress.stop();
-            _context2.next = 56;
-            break;
+            return _context2.finish(48);
 
-          case 54:
-            _context2.next = 56;
-            return takeScreenshot(page, html, destination, filename, quality);
+          case 52:
+            return _context2.finish(45);
+
+          case 53:
+            logger.progress.stop();
+            _context2.next = 58;
+            break;
 
           case 56:
             _context2.next = 58;
-            return server.close();
+            return takeScreenshot(page, html, destination, filename, quality);
 
           case 58:
             _context2.next = 60;
-            return page.close();
+            return server.close();
 
           case 60:
             _context2.next = 62;
-            return browser.close();
+            return page.close();
 
           case 62:
+            _context2.next = 64;
+            return browser.close();
+
+          case 64:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[27, 39, 43, 51], [44,, 46, 50]]);
+    }, _callee2, null, [[29, 41, 45, 53], [46,, 48, 52]]);
   }));
   return _ref3.apply(this, arguments);
 }
